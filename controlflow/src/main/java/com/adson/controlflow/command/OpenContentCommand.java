@@ -1,4 +1,4 @@
-package com.adson.controlflow.command.adson;
+package com.adson.controlflow.command;
 
 import com.adson.controlflow.ControlCommand;
 import com.adson.controlflow.structures.OpenContentAction;

@@ -19,20 +19,19 @@ public class ControlProvider {
     public void open(Context context, ControlCommand action) {
 
         Uri uri = Uri.parse(scheme + "://" + action.getCommand());
-
-        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
-        ControlContent content = action.getContent();
-
-        String name = content.getClass().getSimpleName();
-        intent.putExtra(name, content.toBundle());
+        Intent intent = createIntent(uri, action);
 
         try {
             context.startActivity(intent);
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void send(Context context, ControlCommand action) {
+        Uri uri = Uri.parse(scheme + "-receiver://" + action.getCommand());
+        Intent intent = createIntent(uri, action);
+        context.sendBroadcast(intent);
     }
 
     public <T extends ControlContent> T handle(Intent intent, Class<T> tClass) {
@@ -57,14 +56,27 @@ public class ControlProvider {
         }
     }
 
+    private Intent createIntent(Uri uri, ControlCommand action) {
+
+        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+        ControlContent content = action.getContent();
+
+        String name = content.getClass().getSimpleName();
+        intent.putExtra(name, content.toBundle());
+
+        return intent;
+    }
+
     public static class Builder {
 
         public ControlProvider buildAdsonStub() {
             return new ControlProvider("adsonstub");
         }
 
-        public ControlProvider buildApostera() {
-            return new ControlProvider("apostera");
+        public ControlProvider buildCompanion() {
+            return new ControlProvider("adson-companion");
         }
     }
 

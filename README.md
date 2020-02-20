@@ -1,14 +1,20 @@
-Adson - Control Flow - Android Library
+Inter-app Communication - Android Library
 =======
 
 ## Installation
-1. Open Android project.
+1. Open Android project, go to **gradle.properties** and add this line to the bottom:
+```gradle
+authToken=jp_n2erhhqd50juiqkkc6i5l28mqf
+```
 2. Open your root **build.gradle** and add JitPack to *repositories* section:
 ```gradle
 allprojects {
     repositories {
         ...
-        maven { url 'https://jitpack.io' }
+        maven {
+            url 'https://jitpack.io'
+            credentials { username authToken }
+        }
     }
 }
 ```
@@ -16,7 +22,7 @@ allprojects {
 ```gradle
 dependencies {
     ...
-    implementation 'com.github.Adson-admin:android_control_flow:1.0.0'
+    implementation 'com.github.Adson-admin:android_control_flow:1.0.1'
 }
 ```
 4. Wait until sync process finished.
@@ -35,7 +41,7 @@ ControlProvider controlProvider = new ControlProvider.Builder().buildAdsonStub()
 To open Adson application and notify it with specific action use `OpenContentCommand`:
 ```java
 // Setup Open action
-int contentId = 37 // You can get it from XML file.
+int contentId = 37; // You can get it from XML file.
 OpenContentAction action = new OpenContentAction(contentId, OpenContentActionType.TEXT);
 
 // Intantiate Open command
@@ -66,7 +72,7 @@ public enum OpenContentActionType {
     <category android:name="android.intent.category.DEFAULT" />
     <category android:name="android.intent.category.BROWSABLE" />
 
-    <data android:scheme="apostera" />
+    <data android:scheme="adson-companion" />
     <data android:host="update-content"/>
 </intent-filter>
 ```
@@ -82,4 +88,25 @@ if (action != null) {
     String xmlPath = action.getContentFilePath();
     // Do your processing here
 }
+```
+
+### Send Analytics
+
+To send analytics event to Adson application use `AnalyticsCommand`:
+```java
+// Prepare events
+int contentId = 37; // You can get it from XML file.
+AnalyticsEvent event1 = new AnalyticsEvent(contentId, "click");
+AnalyticsEvent event2 = new AnalyticsEvent(75, "impression");
+...
+
+// Prepare chunk
+AnalyticsEvent[] list = {event1, event2};
+AnalyticsChunkEvent chunk = new AnalyticsChunkEvent(list);
+
+// Intantiate Analytics command
+AnalyticsCommand command = new AnalyticsCommand(chunk);
+
+// Execute command
+controlProvider.send(this.getActivity(), command);
 ```
