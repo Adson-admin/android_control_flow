@@ -1,4 +1,4 @@
-package com.adson.controlflow.command.apostera;
+package com.adson.controlflow.command;
 
 import com.adson.controlflow.ControlCommand;
 import com.adson.controlflow.structures.ContentLocation;
