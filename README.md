@@ -22,7 +22,7 @@ allprojects {
 ```gradle
 dependencies {
     ...
-    implementation 'com.github.Adson-admin:android_control_flow:1.0.1'
+    implementation 'com.github.Adson-admin:android_control_flow:1.1.0'
 }
 ```
 4. Wait until sync process finished.
