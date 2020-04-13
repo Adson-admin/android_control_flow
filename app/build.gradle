@@ -5,10 +5,10 @@ android {
     buildToolsVersion "29.0.0"
     defaultConfig {
         applicationId "com.adson.controlflowexample"
-        minSdkVersion 18
+        minSdkVersion 16
         targetSdkVersion 29
-        versionCode 1
-        versionName "1.0"
+        versionCode 32
+        versionName "1.1.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
